@@ -2,8 +2,6 @@ const path = require('path');
 const os = require('os');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HappyPack = require('happypack');
-var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 function resolve (dir) {
     return path.join(__dirname, dir);
@@ -45,19 +43,19 @@ module.exports = {
             },
             {
                 test: /iview\/.*?js$/,
-                loader: 'happypack/loader?id=happybabel',
+                loader: 'babel-loader',
                 exclude: /node_modules/
             },
             {
                 test: /\.js$/,
-                loader: 'happypack/loader?id=happybabel',
+                loader: 'babel-loader',
                 exclude: /node_modules/
             },
             {
                 test: /\.js[x]?$/,
                 include: [resolve('src')],
                 exclude: /node_modules/,
-                loader: 'happypack/loader?id=happybabel'
+                loader: 'babel-loader'
             },
             {
                 test: /\.css$/,
@@ -83,14 +81,6 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new HappyPack({
-            id: 'happybabel',
-            loaders: ['babel-loader'],
-            threadPool: happyThreadPool,
-            verbose: true
-        })
-    ],
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
